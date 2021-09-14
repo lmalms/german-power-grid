@@ -10,11 +10,11 @@ UTC = pytz.timezone("utc")
 
 class Area(Enum):
 
-    hertz_50 = ("10YDE-VE-------2", "50 Hertz Transmission", "Europe/Berlin")
-    amprion = ("10YDE-RWENET---I", "Amprion", "Europe/Berlin")
-    tennet = ("10YDE-EON------1", "TenneT", "Europe/Berlin")
-    transnet_bw = ("10YDE-ENBW-----N", "TransnetBW", "Europe/Berlin")
-    germany = ("10Y1001A1001A83F", "Germany", "Europe/Berlin")
+    hertz_50 = ("10YDE-VE-------2", "50 hertz transmission", "Europe/Berlin")
+    amprion = ("10YDE-RWENET---I", "amprion", "Europe/Berlin")
+    tennet = ("10YDE-EON------1", "tenneT", "Europe/Berlin")
+    transnet_bw = ("10YDE-ENBW-----N", "transnetBW", "Europe/Berlin")
+    germany = ("10Y1001A1001A83F", "germany", "Europe/Berlin")
 
     def __init__(self, area_code: str, area_name: str, time_zone: str) -> None:
         self._area_code = area_code
@@ -34,9 +34,7 @@ class Area(Enum):
         return self._time_zone
 
     def __repr__(self) -> str:
-        return (
-            f"name: {self.area_name}; code: {self.area_code}; time zone: {self.time_zone}"
-        )
+        return f"name: {self.area_name}; code: {self.area_code}; time zone: {self.time_zone}"
 
 
 class Document(Enum):
@@ -56,7 +54,7 @@ class Document(Enum):
         return self.name
 
     def __repr__(self) -> str:
-        return f"name: {self.document_name.replace('_', ' ').capitalize()}; code: {self.document_code}"
+        return f"name: {self.document_name.replace('_', ' ')}; code: {self.document_code}"
 
 
 class Process(Enum):
@@ -80,7 +78,7 @@ class Process(Enum):
         return self.name
 
     def __repr__(self) -> str:
-        return f"name: {self.process_name.replace('_', ' ').capitalize()}; code: {self.process_code}"
+        return f"name: {self.process_name.replace('_', ' ')}; code: {self.process_code}"
 
 
 class QueryConfigs:
