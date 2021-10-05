@@ -1,4 +1,3 @@
 
-
-class LearningRateFinder():
+class LearningRateFinder:
     pass

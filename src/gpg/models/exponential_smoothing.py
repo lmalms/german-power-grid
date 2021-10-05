@@ -5,7 +5,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 
-class ExponentialSmoothingModel:
+class ExponentialSmoothingForecaster:
 
     def __init__(
             self,
@@ -251,12 +251,3 @@ class ExponentialSmoothingModel:
             self._alpha, self._lambda = params
         else:
             self._alpha = params[0]
-
-    # @property
-    # def _params  # TODO
-
-
-
-
-
-
