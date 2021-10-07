@@ -18,7 +18,7 @@ class CrossValidationExperiment:
         self.n_splits = n_splits
         self.max_train_samples = max_train_samples
 
-    def run(self, model, data: np.ndarray) -> pd.DataFrame:
+    def run(self, forecaster, data: np.ndarray) -> pd.DataFrame:
         data = self._validate_and_format_data(data=data)
         scores = defaultdict(pd.DataFrame)
 
@@ -33,23 +33,23 @@ class CrossValidationExperiment:
                 y_train, y_test = data[train_idx], data[test_idx]
 
                 # Fit model
-                model.fit(y=np.squeeze(y_train))
+                forecaster.fit(y=np.squeeze(y_train))
 
                 # Walk forward validation
-                n_folds = int(len(y_test) - model.horizon)
-                predicted = np.zeros(shape=(n_folds, model.horizon))
-                actual = np.zeros(shape=(n_folds, model.horizon))
+                n_folds = int(len(y_test) - forecaster.horizon)
+                predicted = np.zeros(shape=(n_folds, forecaster.horizon))
+                actual = np.zeros(shape=(n_folds, forecaster.horizon))
                 for i in range(n_folds):
-                    predicted[i, :] = model.predict()
-                    actual[i, :] = np.squeeze(y_test[i: i + model.horizon])
-                    model.update(y=np.squeeze(y_test)[i:i+1])
+                    predicted[i, :] = forecaster.predict()
+                    actual[i, :] = np.squeeze(y_test[i: i + forecaster.horizon])
+                    forecaster.update(y=np.squeeze(y_test)[i:i + 1])
 
                 scores[split] = pd.DataFrame(
                     data={
-                        f"{metric.__name__}": [metric(actual[:, h], predicted[:, h]) for h in range(model.horizon)]
+                        f"{metric.__name__}": [metric(actual[:, h], predicted[:, h]) for h in range(forecaster.horizon)]
                         for metric in (r2_score, mean_absolute_percentage_error)
                     },
-                    index=pd.Series(np.arange(1, model.horizon + 1), name="horizon"),
+                    index=pd.Series(np.arange(1, forecaster.horizon + 1), name="horizon"),
                 )
 
                 # Iterate progress bar
